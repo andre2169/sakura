@@ -1,0 +1,7 @@
+SpeechRecognition
+pyaudio
+groq
+python-dotenv
+edge-tts
+pygame
+httpx
