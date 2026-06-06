@@ -1,105 +1,46 @@
-# 🌸 SAKURÁ — Assistente de Voz com IA
+# SAKURÁ - Assistente de Voz
+===========================
 
-SAKURÁ é uma assistente de voz pessoal desenvolvida em Python, capaz de ouvir comandos, responder com voz natural e integrar com o GitHub via API.
+## Descrição do Projeto
 
-## ✨ Funcionalidades
+SAKURÁ é um assistente de voz que utiliza tecnologias de processamento de linguagem natural e inteligência artificial para realizar tarefas e fornecer informações. O projeto é dividido em módulos responsáveis por captura e reconhecimento de voz, síntese e reprodução de áudio, comunicação com APIs e autenticação em plataformas como o GitHub.
 
-- 🎤 **Reconhecimento de voz** em português brasileiro
-- 🔊 **Síntese de voz neural** com edge-tts (vozes Microsoft)
-- 🧠 **Memória persistente** entre sessões via SQLite
-- 📍 **Localização automática** por IP para respostas contextualizadas
-- 🐙 **Integração com GitHub:**
-  - Listar repositórios
-  - Criar repositórios (público ou privado)
-  - Listar, criar e fechar issues
-  - Fazer commits de arquivos
-  - Gerar README automático com IA
+## Funcionalidades Principais
 
-## 🗂️ Estrutura do Projeto
+- Captura e reconhecimento de voz
+- Síntese e reprodução de áudio
+- Comunicação com a API da Groq
+- Autenticação e requisições no GitHub
+- Gerenciamento de repositórios e issues
 
-```
-sakura/
-├── main.py              # Entry point
-├── core/
-│   ├── config.py        # Variáveis de ambiente
-│   ├── loop.py          # Loop principal
-│   └── localizacao.py   # Detecção de localização por IP
-├── voice/
-│   ├── listener.py      # Captura e reconhecimento de voz
-│   └── speaker.py       # Síntese e reprodução de áudio
-├── ai/
-│   └── groq_client.py   # Comunicação com a API da Groq
-├── github/
-│   ├── client.py        # Requisições base para a API do GitHub
-│   ├── repos.py         # Listar e criar repositórios
-│   ├── issues.py        # Gerenciar issues
-│   ├── commits.py       # Commits de arquivos
-│   ├── readme.py        # Geração de README com IA
-│   └── router.py        # Roteamento de comandos de voz
-└── memory/
-    ├── repository.py    # Interface genérica de memória
-    └── sqlite.py        # Implementação com SQLite
-```
+## Tecnologias Usadas
 
-## 🚀 Como Instalar
+- Python
+- Pygame
+- Edge-TTS
+- Groq API
+- GitHub API
 
-```bash
-# Clone o repositório
-git clone https://github.com/andre2169/sakura.git
-cd sakura
+## Como Instalar e Rodar
 
-# Crie e ative o ambiente virtual
-python -m venv venv
-venv\Scripts\activate  # Windows
+1. Clone o repositório utilizando o comando `git clone https://github.com/usuario/sakura.git`
+2. Acesse a pasta do projeto e instale as dependências com `pip install -r requirements.txt`
+3. Execute o comando `python main.py` para iniciar o assistente de voz
 
-# Instale as dependências
-pip install -r requirements.txt
+## Como Usar
 
-# Se o pyaudio falhar no Windows:
-pip install pyaudio --trusted-host pypi.org --trusted-host files.pythonhosted.org
-```
+1. Inicie o assistente de voz com o comando `python main.py`
+2. Use comandos de voz para realizar tarefas, como:
+ * `abrir repositório` para criar um novo repositório no GitHub
+ * `listar issues` para listar as issues de um repositório
+ * `fazer commit` para fazer um commit de arquivos
+3. O assistente de voz responderá com a ação realizada ou fornecerá informações solicitadas
 
-## ⚙️ Configuração
+## Estrutura do Projeto
 
-Crie um arquivo `.env` na raiz do projeto:
+O projeto é dividido em módulos responsáveis por diferentes funções:
 
-```env
-GROQ_API_KEY=sua_chave_aqui
-GITHUB_TOKEN=seu_token_aqui
-```
-
-- **GROQ_API_KEY:** Obtenha em [console.groq.com](https://console.groq.com)
-- **GITHUB_TOKEN:** Gere em GitHub → Settings → Developer settings → Personal access tokens (permissões: `repo` e `read:user`)
-
-## ▶️ Como Usar
-
-```bash
-python main.py
-```
-
-### Exemplos de comandos de voz
-
-| O que dizer | O que acontece |
-|---|---|
-| *"mostra meus repositórios"* | Lista todos os repos do GitHub |
-| *"cria um repositório chamado meu-projeto"* | Cria novo repositório público |
-| *"cria um repositório chamado segredo privado"* | Cria repositório privado |
-| *"issues do repo meu-projeto"* | Lista issues abertas |
-| *"criar issue no repo X com título Y"* | Abre nova issue |
-| *"fechar issue número 3 no repo X"* | Fecha a issue |
-| *"gerar readme do repo X"* | Gera README com IA e commita |
-| *"limpar memória"* | Apaga o histórico de conversas |
-| *"encerrar"* | Encerra a assistente |
-
-## 🛠️ Tecnologias
-
-- [Groq](https://groq.com) — LLM (llama-3.1-8b-instant)
-- [edge-tts](https://github.com/rany2/edge-tts) — Síntese de voz neural
-- [SpeechRecognition](https://pypi.org/project/SpeechRecognition/) — Reconhecimento de voz
-- [pygame](https://www.pygame.org) — Reprodução de áudio
-- [httpx](https://www.python-httpx.org) — Requisições HTTP assíncronas
-- [SQLite](https://www.sqlite.org) — Banco de dados local para memória persistente
-
-## 📄 Licença
-
-MIT
+* `core/`: contém a lógica do assistente de voz, incluindo o loop principal e o roteamento de comandos
+* `voice/`: contém a lógica de captura e reconhecimento de voz, síntese e reprodução de áudio
+* `ai/`: contém a lógica de comunicação com a API da Groq e autenticação no GitHub
+* `github/`: contém a lógica de autenticação e requisições no GitHub
