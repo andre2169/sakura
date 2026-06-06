@@ -115,6 +115,8 @@ async def processar_comando_github(texto_usuario: str) -> str | None:
     "documentacao", "documenta", "documentar", "gerar doc", "gera doc",
     "criar doc", "cria doc", "descrição do projeto", "descricao do projeto",
     "riad", "riad me", "read", "rime", "reame", "radme", "rim",
+    "head me", "headme", "head", "hed me", "red me", "réd me",
+    "ride me", "ride", "lidame", "lida me", "readmi", "readm",
 ])
 
     tem_fechar = any(p in t for p in [

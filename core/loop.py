@@ -3,7 +3,6 @@ core/loop.py
 ============
 Loop principal da SAKURÁ.
 Responsabilidade: orquestrar escuta → roteamento → resposta.
-Não contém lógica de negócio — delega para os módulos especializados.
 """
 
 import asyncio
@@ -15,11 +14,9 @@ from voice.speaker import falar
 from ai.groq_client import gerar_resposta
 from github.router import processar_comando_github
 from core.localizacao import buscar_localizacao, formatar_localizacao
+import memory.repository as memoria
 
-# Estado global de fala (compartilhado entre listener e speaker)
-esta_falando   = False
 dados_localizacao: dict = {}
-
 PALAVRAS_SAIDA = ["tchau", "desligar", "encerrar", "sair"]
 
 
@@ -28,9 +25,12 @@ async def loop_principal():
 
     validar_config()
     pygame.mixer.init()
+
+    # ── Inicializa o banco de dados ───────────────────────────────────────────
+    memoria.inicializar()
+
     print("🌸 Iniciando SAKURÁ...")
 
-    # Inicialização paralela: localização + calibração do microfone
     dados_localizacao, _ = await asyncio.gather(
         buscar_localizacao(),
         asyncio.to_thread(warmup_reconhecedor)
@@ -45,17 +45,22 @@ async def loop_principal():
         if not texto_usuario:
             continue
 
-        # Encerramento
         if any(p in texto_usuario.lower() for p in PALAVRAS_SAIDA):
             await falar("Foi um prazer ajudar! Até logo.")
             break
 
-        # Tenta rotear para GitHub primeiro
+        # Comando especial: limpar memória
+        if any(p in texto_usuario.lower() for p in ["limpar memória", "limpar memoria",
+                                                      "apagar memória", "apagar memoria",
+                                                      "esquecer tudo", "resetar memória"]):
+            memoria.limpar_historico()
+            await falar("Pronto, apaguei toda a minha memória. Podemos começar do zero!")
+            continue
+
         resposta_github = await processar_comando_github(texto_usuario)
         if resposta_github:
             await falar(resposta_github)
             continue
 
-        # Fallback: IA generativa
         resposta = await asyncio.to_thread(gerar_resposta, texto_usuario, loc_texto)
         await falar(resposta)
