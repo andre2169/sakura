@@ -76,4 +76,7 @@ async def falar(texto: str):
         await loop.run_in_executor(None, _reproduzir, caminho_tmp)
     finally:
         if os.path.exists(caminho_tmp):
-            os.remove(caminho_tmp)
+            try:
+                os.remove(caminho_tmp)
+            except PermissionError:
+                pass  # pygame ainda segura o arquivo — será limpo pelo SO depois
